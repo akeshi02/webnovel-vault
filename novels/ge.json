@@ -5,5 +5,11 @@
   "cover": "https://placehold.co/300x420/1c1c1c/c9a84c?text=GE",
   "status": "Ongoing",
   "description": "No description yet.",
-  "chapters": []
+  "chapters": [
+    {
+      "id": 1,
+      "title": "Chapter 1: Chapter 1: This Crafty Old Man Is So Bad!",
+      "date": "2026-03-19"
+    }
+  ]
 }
