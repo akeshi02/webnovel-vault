@@ -33,3 +33,4 @@ webnovel-vault/
 3. Paste your translated text → click **Generate Files**
 4. Copy and upload the 3 generated files to GitHub
 5. Commit → live in ~30 seconds
+ 
