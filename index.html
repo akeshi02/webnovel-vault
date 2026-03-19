@@ -7,765 +7,60 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=Lora:wght@400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
-:root {
-  --bg: #0d0d0d;
-  --bg2: #141414;
-  --bg3: #1c1c1c;
-  --border: #2a2a2a;
-  --gold: #c9a84c;
-  --gold2: #e8c97a;
-  --red: #8b2020;
-  --text: #e8e0d0;
-  --muted: #6a6460;
-  --card-w: 200px;
-}
-* { margin:0; padding:0; box-sizing:border-box; }
-
-body {
-  background: var(--bg);
-  color: var(--text);
-  font-family: 'Lora', Georgia, serif;
-  min-height: 100vh;
-  overflow-x: hidden;
-}
-
-/* Subtle paper texture overlay */
-body::after {
-  content:'';
-  position:fixed;
-  inset:0;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='400' height='400' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
-  pointer-events:none;
-  z-index:999;
-}
-
-/* ── HEADER ─────────────────────────────────────── */
-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 40px;
-  height: 70px;
-  border-bottom: 1px solid var(--border);
-  background: var(--bg2);
-  position: sticky;
-  top: 0;
-  z-index: 100;
-}
-
-.logo {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
-.logo-icon {
-  width: 36px;
-  height: 36px;
-  background: var(--gold);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1.1rem;
-  color: var(--bg);
-}
-
-.logo-text {
-  font-family: 'Playfair Display', serif;
-  font-size: 1.4rem;
-  color: var(--gold);
-  letter-spacing: 0.04em;
-}
-
-.logo-text span {
-  color: var(--text);
-  font-weight: 400;
-  font-style: italic;
-}
-
-.header-btn {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 0.72rem;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  padding: 9px 20px;
-  background: var(--gold);
-  color: var(--bg);
-  border: none;
-  cursor: pointer;
-  transition: opacity 0.2s;
-}
-.header-btn:hover { opacity: 0.8; }
-
-/* ── HERO ────────────────────────────────────────── */
-.hero {
-  padding: 60px 40px 40px;
-  border-bottom: 1px solid var(--border);
-  position: relative;
-  overflow: hidden;
-}
-
-.hero::before {
-  content: 'VAULT';
-  position: absolute;
-  right: -20px;
-  top: -10px;
-  font-family: 'Playfair Display', serif;
-  font-size: 10rem;
-  color: rgba(201,168,76,0.04);
-  letter-spacing: 0.1em;
-  pointer-events: none;
-  user-select: none;
-}
-
-.hero h1 {
-  font-family: 'Playfair Display', serif;
-  font-size: clamp(2rem, 5vw, 3.5rem);
-  line-height: 1.1;
-  color: var(--text);
-  max-width: 600px;
-}
-
-.hero h1 em {
-  color: var(--gold);
-  font-style: italic;
-}
-
-.hero-sub {
-  margin-top: 14px;
-  color: var(--muted);
-  font-size: 0.95rem;
-  letter-spacing: 0.03em;
-}
-
-.hero-stats {
-  display: flex;
-  gap: 36px;
-  margin-top: 32px;
-}
-
-.stat {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-}
-
-.stat-num {
-  font-family: 'Playfair Display', serif;
-  font-size: 1.8rem;
-  color: var(--gold);
-  line-height: 1;
-}
-
-.stat-label {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 0.65rem;
-  letter-spacing: 0.2em;
-  color: var(--muted);
-  text-transform: uppercase;
-}
-
-/* ── LIBRARY GRID ────────────────────────────────── */
-.library {
-  padding: 48px 40px 80px;
-}
-
-.section-header {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  margin-bottom: 36px;
-}
-
-.section-title {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 0.72rem;
-  letter-spacing: 0.25em;
-  color: var(--muted);
-  text-transform: uppercase;
-}
-
-.section-line {
-  flex: 1;
-  height: 1px;
-  background: var(--border);
-}
-
-.grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(var(--card-w), 1fr));
-  gap: 28px;
-}
-
-/* ── NOVEL CARD ──────────────────────────────────── */
-.novel-card {
-  cursor: pointer;
-  text-decoration: none;
-  color: inherit;
-  display: block;
-  transition: transform 0.25s ease;
-}
-
-.novel-card:hover { transform: translateY(-6px); }
-
-.cover-wrap {
-  position: relative;
-  width: 100%;
-  aspect-ratio: 2/3;
-  overflow: hidden;
-  background: var(--bg3);
-  border: 1px solid var(--border);
-}
-
-.cover-wrap img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-  transition: transform 0.4s ease;
-}
-
-.novel-card:hover .cover-wrap img { transform: scale(1.05); }
-
-.cover-overlay {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(180deg, transparent 50%, rgba(0,0,0,0.85) 100%);
-  opacity: 0;
-  transition: opacity 0.3s;
-  display: flex;
-  align-items: flex-end;
-  padding: 14px;
-}
-
-.novel-card:hover .cover-overlay { opacity: 1; }
-
-.cover-chapter-count {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 0.68rem;
-  letter-spacing: 0.12em;
-  color: var(--gold);
-  text-transform: uppercase;
-}
-
-.status-badge {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 0.6rem;
-  letter-spacing: 0.1em;
-  padding: 3px 8px;
-  background: var(--red);
-  color: #fff;
-  text-transform: uppercase;
-}
-
-.card-info {
-  padding: 12px 0 0;
-}
-
-.card-title {
-  font-family: 'Playfair Display', serif;
-  font-size: 1rem;
-  color: var(--text);
-  line-height: 1.3;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.card-author {
-  margin-top: 4px;
-  font-size: 0.8rem;
-  color: var(--muted);
-  font-style: italic;
-}
-
-.card-chapters {
-  margin-top: 6px;
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 0.65rem;
-  color: var(--gold);
-  letter-spacing: 0.1em;
-}
-
-/* ── EMPTY STATE ─────────────────────────────────── */
-.empty {
-  grid-column: 1/-1;
-  text-align: center;
-  padding: 80px 20px;
-  color: var(--muted);
-}
-
-.empty-icon { font-size: 3rem; margin-bottom: 16px; opacity: 0.3; }
-.empty-text { font-size: 1rem; font-style: italic; }
-
-/* ── ADMIN MODAL ─────────────────────────────────── */
-.modal-bg {
-  display: none;
-  position: fixed;
-  inset: 0;
-  z-index: 500;
-  background: rgba(0,0,0,0.88);
-  backdrop-filter: blur(4px);
-  align-items: center;
-  justify-content: center;
-}
-.modal-bg.open { display: flex; }
-
-.modal {
-  background: var(--bg2);
-  border: 1px solid var(--border);
-  width: min(560px, 95vw);
-  max-height: 90vh;
-  overflow-y: auto;
-  padding: 36px;
-  position: relative;
-  animation: slideUp 0.25s ease;
-}
-
-@keyframes slideUp {
-  from { transform: translateY(20px); opacity: 0; }
-  to   { transform: translateY(0);    opacity: 1; }
-}
-
-.modal-close {
-  position: absolute;
-  top: 16px; right: 20px;
-  background: none; border: none;
-  color: var(--muted); font-size: 1.3rem;
-  cursor: pointer; line-height: 1;
-}
-.modal-close:hover { color: var(--text); }
-
-.modal h2 {
-  font-family: 'Playfair Display', serif;
-  font-size: 1.4rem;
-  color: var(--gold);
-  margin-bottom: 6px;
-}
-
-.modal-sub {
-  font-size: 0.85rem;
-  color: var(--muted);
-  font-style: italic;
-  margin-bottom: 28px;
-}
-
-.field { margin-bottom: 18px; }
-
-.field label {
-  display: block;
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 0.68rem;
-  letter-spacing: 0.18em;
-  color: var(--gold);
-  text-transform: uppercase;
-  margin-bottom: 7px;
-}
-
-.field input, .field textarea, .field select {
-  width: 100%;
-  background: var(--bg3);
-  border: 1px solid var(--border);
-  color: var(--text);
-  font-family: 'Lora', serif;
-  font-size: 0.95rem;
-  padding: 10px 14px;
-  outline: none;
-  transition: border-color 0.2s;
-}
-.field input:focus, .field textarea:focus, .field select:focus {
-  border-color: var(--gold);
-}
-.field textarea { min-height: 90px; resize: vertical; line-height: 1.6; }
-.field select option { background: var(--bg3); }
-
-.field-hint {
-  margin-top: 5px;
-  font-size: 0.75rem;
-  color: var(--muted);
-  font-style: italic;
-}
-
-.btn-row { display: flex; gap: 10px; margin-top: 24px; flex-wrap: wrap; }
-
-.btn {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 0.72rem;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  padding: 11px 22px;
-  border: 1px solid;
-  cursor: pointer;
-  transition: all 0.2s;
-}
-.btn-gold  { background: var(--gold); border-color: var(--gold); color: var(--bg); }
-.btn-gold:hover { opacity: 0.8; }
-.btn-ghost { background: transparent; border-color: var(--border); color: var(--muted); }
-.btn-ghost:hover { border-color: var(--gold); color: var(--text); }
-
-/* ── OUTPUT BOX ──────────────────────────────────── */
-.output {
-  display: none;
-  margin-top: 28px;
-  border-top: 1px solid var(--border);
-  padding-top: 24px;
-}
-
-.output h3 {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 0.7rem;
-  letter-spacing: 0.2em;
-  color: var(--gold);
-  text-transform: uppercase;
-  margin-bottom: 16px;
-}
-
-.file-block {
-  background: var(--bg);
-  border: 1px solid var(--border);
-  border-left: 3px solid var(--gold);
-  padding: 14px 16px;
-  margin-bottom: 12px;
-}
-
-.file-name {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 0.72rem;
-  color: var(--gold2);
-  margin-bottom: 6px;
-}
-
-.file-desc {
-  font-size: 0.78rem;
-  color: var(--muted);
-  font-style: italic;
-  margin-bottom: 10px;
-}
-
-.copy-btn {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 0.65rem;
-  letter-spacing: 0.1em;
-  padding: 5px 12px;
-  background: transparent;
-  border: 1px solid var(--border);
-  color: var(--muted);
-  cursor: pointer;
-  transition: all 0.15s;
-  text-transform: uppercase;
-}
-.copy-btn:hover { border-color: var(--gold); color: var(--gold); }
-
-.deploy-steps {
-  margin-top: 20px;
-  padding: 16px;
-  border: 1px dashed var(--border);
-  font-size: 0.82rem;
-  color: var(--muted);
-  line-height: 1.8;
-}
-.deploy-steps strong { color: var(--gold2); }
-.deploy-steps code {
-  background: var(--bg);
-  padding: 1px 6px;
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 0.75rem;
-  color: var(--text);
-}
-
-@media (max-width: 600px) {
-  header { padding: 0 16px; }
-  .hero  { padding: 36px 16px 28px; }
-  .library { padding: 32px 16px 60px; }
-  .modal { padding: 24px 18px; }
-  :root { --card-w: 140px; }
-}
-</style>
-</head>
-<body>
-
-<header>
-  <div class="logo">
-    <div class="logo-icon">📚</div>
-    <div class="logo-text">Webnovel <span>Vault</span></div>
-  </div>
-  <button class="header-btn" onclick="openModal('novel')">+ New Novel</button>
-</header>
-
-<section class="hero">
-  <h1>Your Personal<br><em>Novel Library</em></h1>
-  <p class="hero-sub">All your translated webnovels, organized in one place.</p>
-  <div class="hero-stats">
-    <div class="stat">
-      <div class="stat-num" id="stat-novels">0</div>
-      <div class="stat-label">Novels</div>
-    </div>
-    <div class="stat">
-      <div class="stat-num" id="stat-chapters">0</div>
-      <div class="stat-label">Chapters</div>
-    </div>
-  </div>
-</section>
-
-<section class="library">
-  <div class="section-header">
-    <div class="section-title">Library</div>
-    <div class="section-line"></div>
-  </div>
-  <div class="grid" id="novel-grid">
-    <div class="empty">
-      <div class="empty-icon">📖</div>
-      <div class="empty-text">No novels yet — click <strong>+ New Novel</strong> to begin.</div>
-    </div>
-  </div>
-</section>
-
-<!-- ADD NOVEL MODAL -->
-<div class="modal-bg" id="modal-novel">
-  <div class="modal">
-    <button class="modal-close" onclick="closeModal('novel')">✕</button>
-    <h2>Add New Novel</h2>
-    <p class="modal-sub">Fill in details — I'll generate the files to upload to GitHub.</p>
-
-    <div class="field">
-      <label>Novel Title</label>
-      <input type="text" id="n-title" placeholder="e.g. I Have Golden Eyes"/>
-    </div>
-    <div class="field">
-      <label>Author Name</label>
-      <input type="text" id="n-author" placeholder="e.g. Long Chuan"/>
-    </div>
-    <div class="field">
-      <label>Short Description</label>
-      <textarea id="n-desc" placeholder="Brief summary of the novel..."></textarea>
-    </div>
-    <div class="field">
-      <label>Cover Image URL</label>
-      <input type="text" id="n-cover" placeholder="https://... (or leave blank for placeholder)"/>
-      <div class="field-hint">Tip: upload image to imgur.com and paste the link here.</div>
-    </div>
-    <div class="field">
-      <label>Status</label>
-      <select id="n-status">
-        <option value="Ongoing">Ongoing</option>
-        <option value="Completed">Completed</option>
-        <option value="Hiatus">Hiatus</option>
-      </select>
-    </div>
-
-    <div class="btn-row">
-      <button class="btn btn-gold" onclick="generateNovel()">Generate Files</button>
-      <button class="btn btn-ghost" onclick="closeModal('novel')">Cancel</button>
-    </div>
-
-    <div class="output" id="output-novel">
-      <h3>📁 Files to Add to GitHub</h3>
-      <div id="output-novel-files"></div>
-      <div class="deploy-steps" id="deploy-novel"></div>
-    </div>
-  </div>
-</div>
-
-<script>
-// ── Utilities ──────────────────────────────────────────────────────────────
-function slugify(str) {
-  return str.toLowerCase().trim().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
-}
-
-function today() {
-  return new Date().toISOString().split('T')[0];
-}
-
-function copyText(text, btn) {
-  navigator.clipboard.writeText(text).then(() => {
-    const orig = btn.textContent;
-    btn.textContent = '✓ Copied!';
-    setTimeout(() => btn.textContent = orig, 2000);
-  });
-}
-
-function openModal(id)  { document.getElementById('modal-' + id).classList.add('open'); }
-function closeModal(id) {
-  document.getElementById('modal-' + id).classList.remove('open');
-  document.getElementById('output-' + id).style.display = 'none';
-}
-
-// ── Load library ───────────────────────────────────────────────────────────
-async function loadLibrary() {
-  let data;
-  try {
-    const res = await fetch('library.json?v=' + Date.now());
-    data = await res.json();
-  } catch(e) {
-    data = { novels: [] };
-  }
-
-  const novels = data.novels || [];
-  document.getElementById('stat-novels').textContent = novels.length;
-  const totalChapters = novels.reduce((s, n) => s + (n.chapters || 0), 0);
-  document.getElementById('stat-chapters').textContent = totalChapters;
-
-  const grid = document.getElementById('novel-grid');
-  if (novels.length === 0) {
-    grid.innerHTML = `<div class="empty"><div class="empty-icon">📖</div><div class="empty-text">No novels yet — click <strong>+ New Novel</strong> to begin.</div></div>`;
-    return;
-  }
-
-  grid.innerHTML = novels.map(n => {
-    const cover = n.cover || `https://via.placeholder.com/300x420/1c1c1c/c9a84c?text=${encodeURIComponent(n.title)}`;
-    return `
-    <a class="novel-card" href="novels/${n.id}.html">
-      <div class="cover-wrap">
-        <img src="${cover}" alt="${n.title}" loading="lazy" onerror="this.src='https://via.placeholder.com/300x420/1c1c1c/c9a84c?text=${encodeURIComponent(n.title)}'"/>
-        <div class="status-badge">${n.status || 'Ongoing'}</div>
-        <div class="cover-overlay">
-          <div class="cover-chapter-count">${n.chapters || 0} ch</div>
-        </div>
-      </div>
-      <div class="card-info">
-        <div class="card-title">${n.title}</div>
-        <div class="card-author">${n.author}</div>
-        <div class="card-chapters">${n.chapters || 0} Chapters</div>
-      </div>
-    </a>`;
-  }).join('');
-}
-
-// ── Generate Novel Files ───────────────────────────────────────────────────
-async function generateNovel() {
-  const title  = document.getElementById('n-title').value.trim();
-  const author = document.getElementById('n-author').value.trim();
-  const desc   = document.getElementById('n-desc').value.trim();
-  const cover  = document.getElementById('n-cover').value.trim();
-  const status = document.getElementById('n-status').value;
-
-  if (!title || !author) { alert('Please fill in Title and Author.'); return; }
-
-  const id = slugify(title);
-  const coverUrl = cover || `https://via.placeholder.com/300x420/1c1c1c/c9a84c?text=${encodeURIComponent(title)}`;
-
-  // Fetch existing library.json
-  let libData;
-  try {
-    const res = await fetch('library.json?v=' + Date.now());
-    libData = await res.json();
-  } catch(e) {
-    libData = { novels: [] };
-  }
-
-  // Check duplicate
-  if (!libData.novels.find(n => n.id === id)) {
-    libData.novels.push({ id, title, author, cover: coverUrl, chapters: 0, status });
-  }
-
-  // Novel data file
-  const novelData = {
-    id, title, author, cover: coverUrl, status,
-    description: desc || 'No description yet.',
-    chapters: []
-  };
-
-  // Novel info page HTML
-  const novelPageHTML = buildNovelPage(novelData);
-
-  const libJSON    = JSON.stringify(libData, null, 2);
-  const novelJSON  = JSON.stringify(novelData, null, 2);
-
-  // Show output
-  const filesDiv = document.getElementById('output-novel-files');
-  filesDiv.innerHTML = `
-    <div class="file-block">
-      <div class="file-name">📄 novels/${id}.json</div>
-      <div class="file-desc">Novel data file — create this in the <code>novels/</code> folder</div>
-      <button class="copy-btn" onclick="copyText(${JSON.stringify(novelJSON)}, this)">Copy Content</button>
-    </div>
-    <div class="file-block">
-      <div class="file-name">📄 novels/${id}.html</div>
-      <div class="file-desc">Novel info page — create this in the <code>novels/</code> folder</div>
-      <button class="copy-btn" onclick="copyText(${JSON.stringify(novelPageHTML)}, this)">Copy Content</button>
-    </div>
-    <div class="file-block">
-      <div class="file-name">📋 library.json</div>
-      <div class="file-desc">Updated library index — replace the root <code>library.json</code></div>
-      <button class="copy-btn" onclick="copyText(${JSON.stringify(libJSON)}, this)">Copy Content</button>
-    </div>
-  `;
-
-  document.getElementById('deploy-novel').innerHTML = `
-    <strong>How to deploy:</strong><br>
-    1. In your GitHub repo, create <code>novels/${id}.json</code> and paste content<br>
-    2. Create <code>novels/${id}.html</code> and paste content<br>
-    3. Create folder <code>chapters/${id}/</code> with a <code>.gitkeep</code> file inside<br>
-    4. Replace root <code>library.json</code> with the updated version<br>
-    5. Commit all files → live in ~30 seconds ✦
-  `;
-
-  document.getElementById('output-novel').style.display = 'block';
-  document.getElementById('output-novel').scrollIntoView({ behavior: 'smooth' });
-}
-
-// ── Build Novel Info Page ──────────────────────────────────────────────────
-function buildNovelPage(novel) {
-  return `<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>${novel.title} — Webnovel Vault</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=Lora:wght@400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-<style>
-:root{--bg:#0d0d0d;--bg2:#141414;--bg3:#1c1c1c;--border:#2a2a2a;--gold:#c9a84c;--gold2:#e8c97a;--red:#8b2020;--text:#e8e0d0;--muted:#6a6460;}
+:root{--bg:#0d0d0d;--bg2:#141414;--bg3:#1c1c1c;--border:#2a2a2a;--gold:#c9a84c;--gold2:#e8c97a;--red:#8b2020;--text:#e8e0d0;--muted:#6a6460;--card-w:190px;}
 *{margin:0;padding:0;box-sizing:border-box;}
-body{background:var(--bg);color:var(--text);font-family:'Lora',Georgia,serif;min-height:100vh;}
+body{background:var(--bg);color:var(--text);font-family:'Lora',Georgia,serif;min-height:100vh;overflow-x:hidden;}
 header{display:flex;align-items:center;justify-content:space-between;padding:0 40px;height:70px;border-bottom:1px solid var(--border);background:var(--bg2);position:sticky;top:0;z-index:100;}
-.logo{display:flex;align-items:center;gap:12px;text-decoration:none;}
+.logo{display:flex;align-items:center;gap:12px;}
 .logo-icon{width:36px;height:36px;background:var(--gold);display:flex;align-items:center;justify-content:center;font-size:1.1rem;color:var(--bg);}
 .logo-text{font-family:'Playfair Display',serif;font-size:1.4rem;color:var(--gold);}
 .logo-text span{color:var(--text);font-style:italic;}
-.back{font-family:'JetBrains Mono',monospace;font-size:0.7rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);text-decoration:none;transition:color 0.2s;}
-.back:hover{color:var(--gold);}
-.novel-hero{display:grid;grid-template-columns:240px 1fr;gap:48px;padding:52px 40px;border-bottom:1px solid var(--border);max-width:1100px;margin:0 auto;}
-.cover-img{width:100%;aspect-ratio:2/3;object-fit:cover;border:1px solid var(--border);display:block;}
-.novel-meta{display:flex;flex-direction:column;justify-content:center;}
-.novel-status{font-family:'JetBrains Mono',monospace;font-size:0.65rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--red);margin-bottom:12px;}
-.novel-title{font-family:'Playfair Display',serif;font-size:clamp(1.8rem,4vw,3rem);line-height:1.15;color:var(--text);margin-bottom:8px;}
-.novel-author{font-size:1rem;color:var(--muted);font-style:italic;margin-bottom:24px;}
-.novel-desc{font-size:1rem;line-height:1.75;color:var(--text);opacity:0.8;margin-bottom:28px;}
-.novel-stats{display:flex;gap:28px;}
-.nstat{display:flex;flex-direction:column;gap:2px;}
-.nstat-num{font-family:'Playfair Display',serif;font-size:1.6rem;color:var(--gold);}
-.nstat-label{font-family:'JetBrains Mono',monospace;font-size:0.62rem;letter-spacing:0.18em;color:var(--muted);text-transform:uppercase;}
-.content{max-width:1100px;margin:0 auto;padding:48px 40px 80px;}
-.section-header{display:flex;align-items:center;gap:16px;margin-bottom:28px;}
-.section-title{font-family:'JetBrains Mono',monospace;font-size:0.7rem;letter-spacing:0.25em;color:var(--muted);text-transform:uppercase;white-space:nowrap;}
+.header-btn{font-family:'JetBrains Mono',monospace;font-size:0.72rem;letter-spacing:0.12em;text-transform:uppercase;padding:9px 20px;background:var(--gold);color:var(--bg);border:none;cursor:pointer;transition:opacity 0.2s;}
+.header-btn:hover{opacity:0.8;}
+.hero{padding:60px 40px 40px;border-bottom:1px solid var(--border);position:relative;overflow:hidden;}
+.hero::before{content:'VAULT';position:absolute;right:-20px;top:-10px;font-family:'Playfair Display',serif;font-size:10rem;color:rgba(201,168,76,0.04);pointer-events:none;user-select:none;}
+.hero h1{font-family:'Playfair Display',serif;font-size:clamp(2rem,5vw,3.5rem);line-height:1.1;color:var(--text);max-width:600px;}
+.hero h1 em{color:var(--gold);font-style:italic;}
+.hero-sub{margin-top:14px;color:var(--muted);font-size:0.95rem;}
+.hero-stats{display:flex;gap:36px;margin-top:32px;}
+.stat{display:flex;flex-direction:column;gap:2px;}
+.stat-num{font-family:'Playfair Display',serif;font-size:1.8rem;color:var(--gold);line-height:1;}
+.stat-label{font-family:'JetBrains Mono',monospace;font-size:0.65rem;letter-spacing:0.2em;color:var(--muted);text-transform:uppercase;}
+.library{padding:48px 40px 80px;}
+.section-header{display:flex;align-items:center;gap:16px;margin-bottom:36px;}
+.section-title{font-family:'JetBrains Mono',monospace;font-size:0.72rem;letter-spacing:0.25em;color:var(--muted);text-transform:uppercase;}
 .section-line{flex:1;height:1px;background:var(--border);}
-.add-btn{font-family:'JetBrains Mono',monospace;font-size:0.68rem;letter-spacing:0.1em;text-transform:uppercase;padding:8px 18px;background:var(--gold);color:var(--bg);border:none;cursor:pointer;transition:opacity 0.2s;white-space:nowrap;}
-.add-btn:hover{opacity:0.8;}
-.chapter-list{display:flex;flex-direction:column;gap:2px;}
-.chapter-row{display:flex;align-items:center;justify-content:space-between;padding:16px 20px;background:var(--bg2);border:1px solid var(--border);border-left:3px solid transparent;text-decoration:none;color:inherit;transition:all 0.2s;}
-.chapter-row:hover{border-left-color:var(--gold);transform:translateX(4px);}
-.ch-left{display:flex;align-items:center;gap:16px;}
-.ch-num{font-family:'JetBrains Mono',monospace;font-size:0.72rem;color:var(--gold);opacity:0.7;min-width:36px;}
-.ch-title{font-size:1rem;}
-.ch-date{font-family:'JetBrains Mono',monospace;font-size:0.68rem;color:var(--muted);}
-.empty-ch{text-align:center;padding:50px 20px;color:var(--muted);font-style:italic;}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(var(--card-w),1fr));gap:28px;}
+.novel-card{cursor:pointer;text-decoration:none;color:inherit;display:block;transition:transform 0.25s ease;}
+.novel-card:hover{transform:translateY(-6px);}
+.cover-wrap{position:relative;width:100%;aspect-ratio:2/3;overflow:hidden;background:var(--bg3);border:1px solid var(--border);}
+.cover-wrap img{width:100%;height:100%;object-fit:cover;display:block;transition:transform 0.4s ease;}
+.novel-card:hover .cover-wrap img{transform:scale(1.05);}
+.cover-overlay{position:absolute;inset:0;background:linear-gradient(180deg,transparent 50%,rgba(0,0,0,0.85) 100%);opacity:0;transition:opacity 0.3s;display:flex;align-items:flex-end;padding:14px;}
+.novel-card:hover .cover-overlay{opacity:1;}
+.cover-chapter-count{font-family:'JetBrains Mono',monospace;font-size:0.68rem;letter-spacing:0.12em;color:var(--gold);text-transform:uppercase;}
+.status-badge{position:absolute;top:10px;right:10px;font-family:'JetBrains Mono',monospace;font-size:0.6rem;letter-spacing:0.1em;padding:3px 8px;background:var(--red);color:#fff;text-transform:uppercase;}
+.card-info{padding:12px 0 0;}
+.card-title{font-family:'Playfair Display',serif;font-size:1rem;color:var(--text);line-height:1.3;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.card-author{margin-top:4px;font-size:0.8rem;color:var(--muted);font-style:italic;}
+.card-chapters{margin-top:6px;font-family:'JetBrains Mono',monospace;font-size:0.65rem;color:var(--gold);letter-spacing:0.1em;}
+.empty{grid-column:1/-1;text-align:center;padding:80px 20px;color:var(--muted);}
+.empty-icon{font-size:3rem;margin-bottom:16px;opacity:0.3;}
 .modal-bg{display:none;position:fixed;inset:0;z-index:500;background:rgba(0,0,0,0.88);backdrop-filter:blur(4px);align-items:center;justify-content:center;}
 .modal-bg.open{display:flex;}
-.modal{background:var(--bg2);border:1px solid var(--border);width:min(580px,95vw);max-height:90vh;overflow-y:auto;padding:36px;position:relative;animation:slideUp 0.25s ease;}
+.modal{background:var(--bg2);border:1px solid var(--border);width:min(560px,95vw);max-height:90vh;overflow-y:auto;padding:36px;position:relative;animation:slideUp 0.25s ease;}
 @keyframes slideUp{from{transform:translateY(20px);opacity:0;}to{transform:translateY(0);opacity:1;}}
-.modal-close{position:absolute;top:16px;right:20px;background:none;border:none;color:var(--muted);font-size:1.3rem;cursor:pointer;}
+.modal-close{position:absolute;top:16px;right:20px;background:none;border:none;color:var(--muted);font-size:1.3rem;cursor:pointer;line-height:1;}
 .modal-close:hover{color:var(--text);}
 .modal h2{font-family:'Playfair Display',serif;font-size:1.4rem;color:var(--gold);margin-bottom:6px;}
 .modal-sub{font-size:0.85rem;color:var(--muted);font-style:italic;margin-bottom:28px;}
 .field{margin-bottom:18px;}
 .field label{display:block;font-family:'JetBrains Mono',monospace;font-size:0.68rem;letter-spacing:0.18em;color:var(--gold);text-transform:uppercase;margin-bottom:7px;}
-.field input,.field textarea{width:100%;background:var(--bg3);border:1px solid var(--border);color:var(--text);font-family:'Lora',serif;font-size:0.95rem;padding:10px 14px;outline:none;transition:border-color 0.2s;}
-.field input:focus,.field textarea:focus{border-color:var(--gold);}
-.field textarea{min-height:300px;resize:vertical;line-height:1.8;}
+.field input,.field textarea,.field select{width:100%;background:var(--bg3);border:1px solid var(--border);color:var(--text);font-family:'Lora',serif;font-size:0.95rem;padding:10px 14px;outline:none;transition:border-color 0.2s;}
+.field input:focus,.field textarea:focus,.field select:focus{border-color:var(--gold);}
+.field textarea{min-height:90px;resize:vertical;line-height:1.6;}
+.field select option{background:var(--bg3);}
+.field-hint{margin-top:5px;font-size:0.75rem;color:var(--muted);font-style:italic;}
 .btn-row{display:flex;gap:10px;margin-top:24px;flex-wrap:wrap;}
 .btn{font-family:'JetBrains Mono',monospace;font-size:0.72rem;letter-spacing:0.1em;text-transform:uppercase;padding:11px 22px;border:1px solid;cursor:pointer;transition:all 0.2s;}
 .btn-gold{background:var(--gold);border-color:var(--gold);color:var(--bg);}
@@ -782,247 +77,376 @@ header{display:flex;align-items:center;justify-content:space-between;padding:0 4
 .deploy-steps{margin-top:20px;padding:16px;border:1px dashed var(--border);font-size:0.82rem;color:var(--muted);line-height:1.8;}
 .deploy-steps strong{color:var(--gold2);}
 .deploy-steps code{background:var(--bg);padding:1px 6px;font-family:'JetBrains Mono',monospace;font-size:0.75rem;color:var(--text);}
-@media(max-width:700px){.novel-hero{grid-template-columns:1fr;}.cover-img{max-width:200px;}.content,.novel-hero{padding:24px 16px;}header{padding:0 16px;}}
+@media(max-width:600px){header{padding:0 16px;}.hero{padding:36px 16px 28px;}.library{padding:32px 16px 60px;}.modal{padding:24px 18px;}:root{--card-w:140px;}}
 </style>
 </head>
 <body>
 <header>
-  <a class="logo" href="../index.html">
+  <div class="logo">
     <div class="logo-icon">📚</div>
     <div class="logo-text">Webnovel <span>Vault</span></div>
-  </a>
-  <a class="back" href="../index.html">← Library</a>
+  </div>
+  <button class="header-btn" onclick="openModal()">+ New Novel</button>
 </header>
 
-<section class="novel-hero">
-  <img class="cover-img" src="${novel.cover}" alt="${novel.title}" onerror="this.src='https://via.placeholder.com/300x420/1c1c1c/c9a84c?text=${encodeURIComponent(novel.title)}'"/>
-  <div class="novel-meta">
-    <div class="novel-status" id="page-status">${novel.status}</div>
-    <h1 class="novel-title">${novel.title}</h1>
-    <div class="novel-author">by ${novel.author}</div>
-    <p class="novel-desc">${novel.description}</p>
-    <div class="novel-stats">
-      <div class="nstat">
-        <div class="nstat-num" id="page-chcount">0</div>
-        <div class="nstat-label">Chapters</div>
-      </div>
-    </div>
+<section class="hero">
+  <h1>Your Personal<br><em>Novel Library</em></h1>
+  <p class="hero-sub">All your translated webnovels, organized in one place.</p>
+  <div class="hero-stats">
+    <div class="stat"><div class="stat-num" id="stat-novels">0</div><div class="stat-label">Novels</div></div>
+    <div class="stat"><div class="stat-num" id="stat-chapters">0</div><div class="stat-label">Chapters</div></div>
   </div>
 </section>
 
-<div class="content">
+<section class="library">
   <div class="section-header">
-    <div class="section-title">Table of Contents</div>
+    <div class="section-title">Library</div>
     <div class="section-line"></div>
-    <button class="add-btn" onclick="document.getElementById('modal-chapter').classList.add('open')">+ Add Chapter</button>
   </div>
-  <div class="chapter-list" id="chapter-list">
-    <div class="empty-ch">No chapters yet — click <strong>+ Add Chapter</strong> to begin.</div>
+  <div class="grid" id="novel-grid">
+    <div class="empty"><div class="empty-icon">📖</div><div>No novels yet — click <strong>+ New Novel</strong> to begin.</div></div>
   </div>
-</div>
+</section>
 
-<!-- ADD CHAPTER MODAL -->
-<div class="modal-bg" id="modal-chapter">
+<!-- ADD NOVEL MODAL -->
+<div class="modal-bg" id="modal">
   <div class="modal">
-    <button class="modal-close" onclick="document.getElementById('modal-chapter').classList.remove('open');document.getElementById('output-chapter').style.display='none'">✕</button>
-    <h2>Add New Chapter</h2>
-    <p class="modal-sub">Paste your translated chapter text below.</p>
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <h2>Add New Novel</h2>
+    <p class="modal-sub">Fill in details — I'll generate the files to upload to GitHub.</p>
+    <div class="field"><label>Novel Title</label><input type="text" id="n-title" placeholder="e.g. I Have Golden Eyes"/></div>
+    <div class="field"><label>Author Name</label><input type="text" id="n-author" placeholder="e.g. Long Chuan"/></div>
+    <div class="field"><label>Short Description</label><textarea id="n-desc" placeholder="Brief summary..."></textarea></div>
     <div class="field">
-      <label>Chapter Number</label>
-      <input type="number" id="ch-num" min="1" placeholder="e.g. 2"/>
+      <label>Cover Image URL</label>
+      <input type="text" id="n-cover" placeholder="https://... (leave blank for auto placeholder)"/>
+      <div class="field-hint">Tip: upload image to imgur.com and paste the link here.</div>
     </div>
     <div class="field">
-      <label>Chapter Title</label>
-      <input type="text" id="ch-title" placeholder="e.g. The Ancient Sect"/>
-    </div>
-    <div class="field">
-      <label>Chapter Text (Translated English)</label>
-      <textarea id="ch-text" placeholder="Paste your translated chapter here..."></textarea>
+      <label>Status</label>
+      <select id="n-status"><option value="Ongoing">Ongoing</option><option value="Completed">Completed</option><option value="Hiatus">Hiatus</option></select>
     </div>
     <div class="btn-row">
-      <button class="btn btn-gold" onclick="generateChapter()">Generate Files</button>
-      <button class="btn btn-ghost" onclick="document.getElementById('modal-chapter').classList.remove('open')">Cancel</button>
+      <button class="btn btn-gold" onclick="generateNovel()">Generate Files</button>
+      <button class="btn btn-ghost" onclick="closeModal()">Cancel</button>
     </div>
-    <div class="output" id="output-chapter">
+    <div class="output" id="output">
       <h3>📁 Files to Add to GitHub</h3>
-      <div id="output-chapter-files"></div>
-      <div class="deploy-steps" id="deploy-chapter"></div>
+      <div id="output-files"></div>
+      <div class="deploy-steps" id="deploy-steps"></div>
     </div>
   </div>
 </div>
 
 <script>
-const NOVEL_ID = '${novel.id}';
+function slugify(s){return s.toLowerCase().trim().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');}
+function pad(n){return String(n).padStart(3,'0');}
+function todayStr(){return new Date().toISOString().split('T')[0];}
+function openModal(){document.getElementById('modal').classList.add('open');}
+function closeModal(){document.getElementById('modal').classList.remove('open');document.getElementById('output').style.display='none';}
 
-function pad(n) { return String(n).padStart(3,'0'); }
-function today() { return new Date().toISOString().split('T')[0]; }
-function copyText(text, btn) {
-  navigator.clipboard.writeText(text).then(() => {
-    const o = btn.textContent; btn.textContent='✓ Copied!';
+function copyText(text,btn){
+  navigator.clipboard.writeText(text).then(()=>{
+    const o=btn.textContent;btn.textContent='✓ Copied!';
     setTimeout(()=>btn.textContent=o,2000);
   });
 }
 
-async function loadChapters() {
+async function loadLibrary(){
   let data;
-  try {
-    const res = await fetch('../novels/'+NOVEL_ID+'.json?v='+Date.now());
-    data = await res.json();
-  } catch(e) { data = { chapters: [] }; }
-
-  const chapters = data.chapters || [];
-  document.getElementById('page-chcount').textContent = chapters.length;
-
-  const list = document.getElementById('chapter-list');
-  if (chapters.length === 0) {
-    list.innerHTML = '<div class="empty-ch">No chapters yet — click <strong>+ Add Chapter</strong> to begin.</div>';
+  try{const r=await fetch('library.json?v='+Date.now());data=await r.json();}
+  catch(e){data={novels:[]};}
+  const novels=data.novels||[];
+  document.getElementById('stat-novels').textContent=novels.length;
+  document.getElementById('stat-chapters').textContent=novels.reduce((s,n)=>s+(n.chapters||0),0);
+  const grid=document.getElementById('novel-grid');
+  if(!novels.length){
+    grid.innerHTML='<div class="empty"><div class="empty-icon">📖</div><div>No novels yet — click <strong>+ New Novel</strong> to begin.</div></div>';
     return;
   }
-  list.innerHTML = chapters.map(ch => \`
-    <a class="chapter-row" href="../chapters/${novel.id}/chapter-\${pad(ch.id)}.html">
-      <div class="ch-left">
-        <span class="ch-num">\${pad(ch.id)}</span>
-        <span class="ch-title">\${ch.title}</span>
-      </div>
-      <span class="ch-date">\${ch.date||''}</span>
-    </a>
-  \`).join('');
+  grid.innerHTML=novels.map(n=>{
+    const cover=n.cover||'https://placehold.co/300x420/1c1c1c/c9a84c?text='+encodeURIComponent(n.title);
+    return '<a class="novel-card" href="novels/'+n.id+'.html">'
+      +'<div class="cover-wrap">'
+      +'<img src="'+cover+'" alt="'+n.title+'" loading="lazy" onerror="this.src=\'https://placehold.co/300x420/1c1c1c/c9a84c?text='+encodeURIComponent(n.title)+'\'"/>'
+      +'<div class="status-badge">'+(n.status||'Ongoing')+'</div>'
+      +'<div class="cover-overlay"><div class="cover-chapter-count">'+(n.chapters||0)+' ch</div></div>'
+      +'</div>'
+      +'<div class="card-info">'
+      +'<div class="card-title">'+n.title+'</div>'
+      +'<div class="card-author">'+n.author+'</div>'
+      +'<div class="card-chapters">'+(n.chapters||0)+' Chapters</div>'
+      +'</div></a>';
+  }).join('');
 }
 
-async function generateChapter() {
-  const num   = parseInt(document.getElementById('ch-num').value);
-  const title = document.getElementById('ch-title').value.trim();
-  const text  = document.getElementById('ch-text').value.trim();
+async function generateNovel(){
+  const title=document.getElementById('n-title').value.trim();
+  const author=document.getElementById('n-author').value.trim();
+  const desc=document.getElementById('n-desc').value.trim()||'No description yet.';
+  const cover=document.getElementById('n-cover').value.trim();
+  const status=document.getElementById('n-status').value;
+  if(!title||!author){alert('Please fill in Title and Author.');return;}
 
-  if (!num || !title || !text) { alert('Please fill in all fields.'); return; }
+  const id=slugify(title);
+  const coverUrl=cover||'https://placehold.co/300x420/1c1c1c/c9a84c?text='+encodeURIComponent(title);
 
-  const padded = pad(num);
-  const dt = today();
-
-  // Build chapter HTML
-  const chHTML = buildChapterHTML(num, padded, title, text, dt);
-
-  // Fetch novel JSON and update
-  let novelData;
-  try {
-    const res = await fetch('../novels/'+NOVEL_ID+'.json?v='+Date.now());
-    novelData = await res.json();
-  } catch(e) { novelData = { id: NOVEL_ID, title: '${novel.title}', author: '${novel.author}', cover: '${novel.cover}', status: '${novel.status}', description: '${novel.description}', chapters: [] }; }
-
-  if (!novelData.chapters.find(c => c.id === num)) {
-    novelData.chapters.push({ id: num, title: 'Chapter '+num+': '+title, file: '../chapters/'+NOVEL_ID+'/chapter-'+padded+'.html', date: dt });
-    novelData.chapters.sort((a,b)=>a.id-b.id);
+  let libData;
+  try{const r=await fetch('library.json?v='+Date.now());libData=await r.json();}
+  catch(e){libData={novels:[]};}
+  if(!libData.novels.find(n=>n.id===id)){
+    libData.novels.push({id,title,author,cover:coverUrl,chapters:0,status});
   }
 
-  // Update library.json chapter count
-  let libData;
-  try {
-    const res = await fetch('../library.json?v='+Date.now());
-    libData = await res.json();
-  } catch(e) { libData = { novels: [] }; }
-  const libEntry = libData.novels.find(n => n.id === NOVEL_ID);
-  if (libEntry) libEntry.chapters = novelData.chapters.length;
+  const novelData={id,title,author,cover:coverUrl,status,description:desc,chapters:[]};
+  const novelPageHTML=makeNovelPage(novelData);
+  const libJSON=JSON.stringify(libData,null,2);
+  const novelJSON=JSON.stringify(novelData,null,2);
 
-  const novelJSON = JSON.stringify(novelData, null, 2);
-  const libJSON   = JSON.stringify(libData, null, 2);
+  const filesDiv=document.getElementById('output-files');
+  filesDiv.innerHTML='';
 
-  const filesDiv = document.getElementById('output-chapter-files');
-  filesDiv.innerHTML = \`
-    <div class="file-block">
-      <div class="file-name">📄 chapters/${novel.id}/chapter-\${padded}.html</div>
-      <div class="file-desc">New chapter page</div>
-      <button class="copy-btn" onclick="copyText(\${JSON.stringify(chHTML)}, this)">Copy Content</button>
-    </div>
-    <div class="file-block">
-      <div class="file-name">📋 novels/${novel.id}.json</div>
-      <div class="file-desc">Updated novel data — replace existing file</div>
-      <button class="copy-btn" onclick="copyText(\${JSON.stringify(novelJSON)}, this)">Copy Content</button>
-    </div>
-    <div class="file-block">
-      <div class="file-name">📋 library.json</div>
-      <div class="file-desc">Updated library — replace root file</div>
-      <button class="copy-btn" onclick="copyText(\${JSON.stringify(libJSON)}, this)">Copy Content</button>
-    </div>
-  \`;
+  // File 1
+  const b1=document.createElement('div');b1.className='file-block';
+  b1.innerHTML='<div class="file-name">📄 novels/'+id+'.json</div><div class="file-desc">Novel data file — create in novels/ folder</div>';
+  const c1=document.createElement('button');c1.className='copy-btn';c1.textContent='Copy Content';
+  c1.onclick=()=>copyText(novelJSON,c1);b1.appendChild(c1);filesDiv.appendChild(b1);
 
-  document.getElementById('deploy-chapter').innerHTML = \`
-    <strong>How to deploy:</strong><br>
-    1. Create <code>chapters/${novel.id}/chapter-\${padded}.html</code> in GitHub<br>
-    2. Replace <code>novels/${novel.id}.json</code> with updated version<br>
-    3. Replace root <code>library.json</code> with updated version<br>
-    4. Commit all → live in ~30 seconds ✦
-  \`;
+  // File 2
+  const b2=document.createElement('div');b2.className='file-block';
+  b2.innerHTML='<div class="file-name">📄 novels/'+id+'.html</div><div class="file-desc">Novel info page — create in novels/ folder</div>';
+  const c2=document.createElement('button');c2.className='copy-btn';c2.textContent='Copy Content';
+  c2.onclick=()=>copyText(novelPageHTML,c2);b2.appendChild(c2);filesDiv.appendChild(b2);
 
-  document.getElementById('output-chapter').style.display = 'block';
-  document.getElementById('output-chapter').scrollIntoView({ behavior: 'smooth' });
+  // File 3
+  const b3=document.createElement('div');b3.className='file-block';
+  b3.innerHTML='<div class="file-name">📋 library.json</div><div class="file-desc">Updated library index — replace root file</div>';
+  const c3=document.createElement('button');c3.className='copy-btn';c3.textContent='Copy Content';
+  c3.onclick=()=>copyText(libJSON,c3);b3.appendChild(c3);filesDiv.appendChild(b3);
+
+  document.getElementById('deploy-steps').innerHTML=
+    '<strong>How to deploy:</strong><br>'
+    +'1. In GitHub, create <code>novels/'+id+'.json</code> and paste content<br>'
+    +'2. Create <code>novels/'+id+'.html</code> and paste content<br>'
+    +'3. Create folder <code>chapters/'+id+'/</code> with a <code>.gitkeep</code> file<br>'
+    +'4. Replace root <code>library.json</code> with the updated version<br>'
+    +'5. Commit all files → live in ~30 seconds ✦';
+
+  document.getElementById('output').style.display='block';
+  document.getElementById('output').scrollIntoView({behavior:'smooth'});
 }
 
-function buildChapterHTML(num, padded, title, text, dt) {
-  const prev = num > 1 ? \`<a href="chapter-\${String(num-1).padStart(3,'0')}.html" class="nav-btn">← Previous</a>\` : \`<span class="nav-btn disabled">← Previous</span>\`;
-  const next = \`<a href="chapter-\${String(num+1).padStart(3,'0')}.html" class="nav-btn">Next →</a>\`;
-  const paragraphs = text.split(/\\n+/).filter(p=>p.trim()).map(p=>\`<p class="para">\${p.trim()}</p>\`).join('\\n');
-
-  return \`<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Chapter \${num}: \${title}</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=Lora:wght@400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-<style>
-:root{--bg:#0d0d0d;--bg2:#141414;--bg3:#1c1c1c;--border:#2a2a2a;--gold:#c9a84c;--text:#e8e0d0;--muted:#6a6460;}
-*{margin:0;padding:0;box-sizing:border-box;}
-body{background:var(--bg);color:var(--text);font-family:'Lora',Georgia,serif;line-height:1.85;min-height:100vh;}
-header{display:flex;align-items:center;justify-content:space-between;padding:0 40px;height:70px;border-bottom:1px solid var(--border);background:var(--bg2);position:sticky;top:0;z-index:100;}
-.logo{display:flex;align-items:center;gap:12px;text-decoration:none;}
-.logo-icon{width:36px;height:36px;background:var(--gold);display:flex;align-items:center;justify-content:center;color:var(--bg);}
-.logo-text{font-family:'Playfair Display',serif;font-size:1.3rem;color:var(--gold);}
-.logo-text span{color:var(--text);font-style:italic;}
-.back{font-family:'JetBrains Mono',monospace;font-size:0.7rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);text-decoration:none;transition:color 0.2s;}
-.back:hover{color:var(--gold);}
-.ch-header{text-align:center;padding:48px 20px 36px;border-bottom:1px solid var(--border);background:var(--bg2);}
-.ch-label{font-family:'JetBrains Mono',monospace;font-size:0.68rem;letter-spacing:0.25em;color:var(--muted);text-transform:uppercase;margin-bottom:10px;}
-.ch-title{font-family:'Playfair Display',serif;font-size:clamp(1.4rem,4vw,2.4rem);color:var(--text);line-height:1.2;}
-.ch-meta{margin-top:10px;font-size:0.8rem;color:var(--muted);font-style:italic;}
-main{max-width:700px;margin:0 auto;padding:52px 24px 80px;}
-.para{margin-bottom:1.5em;font-size:1.1rem;color:var(--text);}
-.nav-bar{display:flex;justify-content:space-between;align-items:center;margin-top:64px;padding-top:28px;border-top:1px solid var(--border);}
-.nav-btn{font-family:'JetBrains Mono',monospace;font-size:0.7rem;letter-spacing:0.12em;padding:10px 20px;border:1px solid var(--border);color:var(--muted);text-decoration:none;text-transform:uppercase;transition:all 0.2s;}
-.nav-btn:hover{border-color:var(--gold);color:var(--gold);}
-.nav-btn.disabled{opacity:0.2;pointer-events:none;}
-@media(max-width:600px){header{padding:0 16px;}main{padding:32px 16px 60px;}}
-</style>
-</head>
-<body>
-<header>
-  <a class="logo" href="../../index.html">
-    <div class="logo-icon">📚</div>
-    <div class="logo-text">Webnovel <span>Vault</span></div>
-  </a>
-  <a class="back" href="../../novels/${novel.id}.html">← ${novel.title}</a>
-</header>
-<div class="ch-header">
-  <div class="ch-label">Chapter \${num}</div>
-  <h1 class="ch-title">\${title}</h1>
-  <div class="ch-meta">Added \${dt}</div>
-</div>
-<main>
-\${paragraphs}
-  <nav class="nav-bar">
-    \${prev}
-    <a href="../../novels/${novel.id}.html" class="nav-btn">☰ Contents</a>
-    \${next}
-  </nav>
-</main>
-</body>
-</html>\`;
-}
-
-loadChapters();
-<\/script>
-</body>
-</html>`;
+function makeNovelPage(novel){
+  const esc=s=>s.replace(/\\/g,'\\\\').replace(/`/g,'\\`').replace(/\$/g,'\\$');
+  const lines=[];
+  lines.push('<!DOCTYPE html>');
+  lines.push('<html lang="en">');
+  lines.push('<head>');
+  lines.push('<meta charset="UTF-8"/>');
+  lines.push('<meta name="viewport" content="width=device-width, initial-scale=1.0"/>');
+  lines.push('<title>'+novel.title+' — Webnovel Vault</title>');
+  lines.push('<link rel="preconnect" href="https://fonts.googleapis.com">');
+  lines.push('<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=Lora:wght@400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">');
+  lines.push('<style>');
+  lines.push(':root{--bg:#0d0d0d;--bg2:#141414;--bg3:#1c1c1c;--border:#2a2a2a;--gold:#c9a84c;--gold2:#e8c97a;--red:#8b2020;--text:#e8e0d0;--muted:#6a6460;}');
+  lines.push('*{margin:0;padding:0;box-sizing:border-box;}');
+  lines.push('body{background:var(--bg);color:var(--text);font-family:"Lora",Georgia,serif;min-height:100vh;}');
+  lines.push('header{display:flex;align-items:center;justify-content:space-between;padding:0 40px;height:70px;border-bottom:1px solid var(--border);background:var(--bg2);position:sticky;top:0;z-index:100;}');
+  lines.push('.logo{display:flex;align-items:center;gap:12px;text-decoration:none;}');
+  lines.push('.logo-icon{width:36px;height:36px;background:var(--gold);display:flex;align-items:center;justify-content:center;font-size:1.1rem;color:var(--bg);}');
+  lines.push('.logo-text{font-family:"Playfair Display",serif;font-size:1.4rem;color:var(--gold);}');
+  lines.push('.logo-text span{color:var(--text);font-style:italic;}');
+  lines.push('.back{font-family:"JetBrains Mono",monospace;font-size:0.7rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);text-decoration:none;transition:color 0.2s;}');
+  lines.push('.back:hover{color:var(--gold);}');
+  lines.push('.novel-hero{display:grid;grid-template-columns:220px 1fr;gap:48px;padding:52px 40px;border-bottom:1px solid var(--border);max-width:1000px;margin:0 auto;}');
+  lines.push('.cover-img{width:100%;aspect-ratio:2/3;object-fit:cover;border:1px solid var(--border);display:block;}');
+  lines.push('.novel-meta{display:flex;flex-direction:column;justify-content:center;}');
+  lines.push('.novel-status{font-family:"JetBrains Mono",monospace;font-size:0.65rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--red);margin-bottom:12px;}');
+  lines.push('.novel-title{font-family:"Playfair Display",serif;font-size:clamp(1.8rem,4vw,2.8rem);line-height:1.15;color:var(--text);margin-bottom:8px;}');
+  lines.push('.novel-author{font-size:1rem;color:var(--muted);font-style:italic;margin-bottom:20px;}');
+  lines.push('.novel-desc{font-size:1rem;line-height:1.75;color:var(--text);opacity:0.8;margin-bottom:24px;}');
+  lines.push('.novel-stats{display:flex;gap:28px;}');
+  lines.push('.nstat{display:flex;flex-direction:column;gap:2px;}');
+  lines.push('.nstat-num{font-family:"Playfair Display",serif;font-size:1.6rem;color:var(--gold);}');
+  lines.push('.nstat-label{font-family:"JetBrains Mono",monospace;font-size:0.62rem;letter-spacing:0.18em;color:var(--muted);text-transform:uppercase;}');
+  lines.push('.content{max-width:1000px;margin:0 auto;padding:48px 40px 80px;}');
+  lines.push('.section-header{display:flex;align-items:center;gap:16px;margin-bottom:28px;}');
+  lines.push('.section-title{font-family:"JetBrains Mono",monospace;font-size:0.7rem;letter-spacing:0.25em;color:var(--muted);text-transform:uppercase;white-space:nowrap;}');
+  lines.push('.section-line{flex:1;height:1px;background:var(--border);}');
+  lines.push('.add-btn{font-family:"JetBrains Mono",monospace;font-size:0.68rem;letter-spacing:0.1em;text-transform:uppercase;padding:8px 18px;background:var(--gold);color:var(--bg);border:none;cursor:pointer;transition:opacity 0.2s;white-space:nowrap;}');
+  lines.push('.add-btn:hover{opacity:0.8;}');
+  lines.push('.chapter-list{display:flex;flex-direction:column;gap:2px;}');
+  lines.push('.chapter-row{display:flex;align-items:center;justify-content:space-between;padding:16px 20px;background:var(--bg2);border:1px solid var(--border);border-left:3px solid transparent;text-decoration:none;color:inherit;transition:all 0.2s;}');
+  lines.push('.chapter-row:hover{border-left-color:var(--gold);transform:translateX(4px);}');
+  lines.push('.ch-left{display:flex;align-items:center;gap:16px;}');
+  lines.push('.ch-num{font-family:"JetBrains Mono",monospace;font-size:0.72rem;color:var(--gold);opacity:0.7;min-width:36px;}');
+  lines.push('.ch-title{font-size:1rem;}');
+  lines.push('.ch-date{font-family:"JetBrains Mono",monospace;font-size:0.68rem;color:var(--muted);}');
+  lines.push('.empty-ch{text-align:center;padding:50px 20px;color:var(--muted);font-style:italic;}');
+  lines.push('.modal-bg{display:none;position:fixed;inset:0;z-index:500;background:rgba(0,0,0,0.88);backdrop-filter:blur(4px);align-items:center;justify-content:center;}');
+  lines.push('.modal-bg.open{display:flex;}');
+  lines.push('.modal{background:var(--bg2);border:1px solid var(--border);width:min(580px,95vw);max-height:90vh;overflow-y:auto;padding:36px;position:relative;animation:slideUp 0.25s ease;}');
+  lines.push('@keyframes slideUp{from{transform:translateY(20px);opacity:0;}to{transform:translateY(0);opacity:1;}}');
+  lines.push('.modal-close{position:absolute;top:16px;right:20px;background:none;border:none;color:var(--muted);font-size:1.3rem;cursor:pointer;}');
+  lines.push('.modal-close:hover{color:var(--text);}');
+  lines.push('.modal h2{font-family:"Playfair Display",serif;font-size:1.4rem;color:var(--gold);margin-bottom:6px;}');
+  lines.push('.modal-sub{font-size:0.85rem;color:var(--muted);font-style:italic;margin-bottom:28px;}');
+  lines.push('.field{margin-bottom:18px;}');
+  lines.push('.field label{display:block;font-family:"JetBrains Mono",monospace;font-size:0.68rem;letter-spacing:0.18em;color:var(--gold);text-transform:uppercase;margin-bottom:7px;}');
+  lines.push('.field input,.field textarea{width:100%;background:var(--bg3);border:1px solid var(--border);color:var(--text);font-family:"Lora",serif;font-size:0.95rem;padding:10px 14px;outline:none;transition:border-color 0.2s;}');
+  lines.push('.field input:focus,.field textarea:focus{border-color:var(--gold);}');
+  lines.push('.field textarea{min-height:300px;resize:vertical;line-height:1.8;}');
+  lines.push('.btn-row{display:flex;gap:10px;margin-top:24px;flex-wrap:wrap;}');
+  lines.push('.btn{font-family:"JetBrains Mono",monospace;font-size:0.72rem;letter-spacing:0.1em;text-transform:uppercase;padding:11px 22px;border:1px solid;cursor:pointer;transition:all 0.2s;}');
+  lines.push('.btn-gold{background:var(--gold);border-color:var(--gold);color:var(--bg);}');
+  lines.push('.btn-gold:hover{opacity:0.8;}');
+  lines.push('.btn-ghost{background:transparent;border-color:var(--border);color:var(--muted);}');
+  lines.push('.btn-ghost:hover{border-color:var(--gold);color:var(--text);}');
+  lines.push('.output{display:none;margin-top:28px;border-top:1px solid var(--border);padding-top:24px;}');
+  lines.push('.output h3{font-family:"JetBrains Mono",monospace;font-size:0.7rem;letter-spacing:0.2em;color:var(--gold);text-transform:uppercase;margin-bottom:16px;}');
+  lines.push('.file-block{background:var(--bg);border:1px solid var(--border);border-left:3px solid var(--gold);padding:14px 16px;margin-bottom:12px;}');
+  lines.push('.file-name{font-family:"JetBrains Mono",monospace;font-size:0.72rem;color:var(--gold2);margin-bottom:6px;}');
+  lines.push('.file-desc{font-size:0.78rem;color:var(--muted);font-style:italic;margin-bottom:10px;}');
+  lines.push('.copy-btn{font-family:"JetBrains Mono",monospace;font-size:0.65rem;letter-spacing:0.1em;padding:5px 12px;background:transparent;border:1px solid var(--border);color:var(--muted);cursor:pointer;transition:all 0.15s;text-transform:uppercase;}');
+  lines.push('.copy-btn:hover{border-color:var(--gold);color:var(--gold);}');
+  lines.push('.deploy-steps{margin-top:20px;padding:16px;border:1px dashed var(--border);font-size:0.82rem;color:var(--muted);line-height:1.8;}');
+  lines.push('.deploy-steps strong{color:var(--gold2);}');
+  lines.push('.deploy-steps code{background:var(--bg);padding:1px 6px;font-family:"JetBrains Mono",monospace;font-size:0.75rem;color:var(--text);}');
+  lines.push('@media(max-width:700px){.novel-hero{grid-template-columns:1fr;}.cover-img{max-width:180px;}.content,.novel-hero{padding:24px 16px;}header{padding:0 16px;}}');
+  lines.push('</style>');
+  lines.push('</head>');
+  lines.push('<body>');
+  lines.push('<header>');
+  lines.push('<a class="logo" href="../index.html"><div class="logo-icon">📚</div><div class="logo-text">Webnovel <span>Vault</span></div></a>');
+  lines.push('<a class="back" href="../index.html">← Library</a>');
+  lines.push('</header>');
+  lines.push('<section class="novel-hero">');
+  lines.push('<img class="cover-img" src="'+novel.cover+'" alt="'+novel.title+'"/>');
+  lines.push('<div class="novel-meta">');
+  lines.push('<div class="novel-status">'+novel.status+'</div>');
+  lines.push('<h1 class="novel-title">'+novel.title+'</h1>');
+  lines.push('<div class="novel-author">by '+novel.author+'</div>');
+  lines.push('<p class="novel-desc">'+novel.description+'</p>');
+  lines.push('<div class="novel-stats"><div class="nstat"><div class="nstat-num" id="chcount">0</div><div class="nstat-label">Chapters</div></div></div>');
+  lines.push('</div>');
+  lines.push('</section>');
+  lines.push('<div class="content">');
+  lines.push('<div class="section-header"><div class="section-title">Table of Contents</div><div class="section-line"></div><button class="add-btn" onclick="document.getElementById(\'chmodal\').classList.add(\'open\')">+ Add Chapter</button></div>');
+  lines.push('<div class="chapter-list" id="chlist"><div class="empty-ch">No chapters yet.</div></div>');
+  lines.push('</div>');
+  lines.push('<div class="modal-bg" id="chmodal">');
+  lines.push('<div class="modal">');
+  lines.push('<button class="modal-close" onclick="document.getElementById(\'chmodal\').classList.remove(\'open\');document.getElementById(\'choutput\').style.display=\'none\'">✕</button>');
+  lines.push('<h2>Add New Chapter</h2>');
+  lines.push('<p class="modal-sub">Paste your translated chapter text below.</p>');
+  lines.push('<div class="field"><label>Chapter Number</label><input type="number" id="chnum" min="1" placeholder="e.g. 1"/></div>');
+  lines.push('<div class="field"><label>Chapter Title</label><input type="text" id="chtitle" placeholder="e.g. The Wicked Old Man"/></div>');
+  lines.push('<div class="field"><label>Chapter Text</label><textarea id="chtext" placeholder="Paste your translated chapter here..."></textarea></div>');
+  lines.push('<div class="btn-row"><button class="btn btn-gold" onclick="genChapter()">Generate Files</button><button class="btn btn-ghost" onclick="document.getElementById(\'chmodal\').classList.remove(\'open\')">Cancel</button></div>');
+  lines.push('<div class="output" id="choutput"><h3>📁 Files to Add to GitHub</h3><div id="chfiles"></div><div class="deploy-steps" id="chdeploy"></div></div>');
+  lines.push('</div></div>');
+  lines.push('<script>');
+  lines.push('var NID="'+novel.id+'",NTITLE='+JSON.stringify(novel.title)+',NAUTHOR='+JSON.stringify(novel.author)+',NCOVER='+JSON.stringify(novel.cover)+',NSTATUS='+JSON.stringify(novel.status)+',NDESC='+JSON.stringify(novel.description)+';');
+  lines.push('function pad(n){return String(n).padStart(3,"0");}');
+  lines.push('function todayStr(){return new Date().toISOString().split("T")[0];}');
+  lines.push('function copyTxt(t,b){navigator.clipboard.writeText(t).then(()=>{var o=b.textContent;b.textContent="✓ Copied!";setTimeout(()=>b.textContent=o,2000);});}');
+  lines.push('async function loadCh(){');
+  lines.push('  var data;');
+  lines.push('  try{var r=await fetch("../novels/"+NID+".json?v="+Date.now());data=await r.json();}catch(e){data={chapters:[]};}');
+  lines.push('  var chs=data.chapters||[];');
+  lines.push('  document.getElementById("chcount").textContent=chs.length;');
+  lines.push('  var list=document.getElementById("chlist");');
+  lines.push('  if(!chs.length){list.innerHTML="<div class=\'empty-ch\'>No chapters yet — click <strong>+ Add Chapter</strong> to begin.</div>";return;}');
+  lines.push('  list.innerHTML=chs.map(function(ch){');
+  lines.push('    return "<a class=\'chapter-row\' href=\'../chapters/"+NID+"/chapter-"+pad(ch.id)+".html\'>"');
+  lines.push('      +"<div class=\'ch-left\'><span class=\'ch-num\'>"+pad(ch.id)+"</span><span class=\'ch-title\'>"+ch.title+"</span></div>"');
+  lines.push('      +"<span class=\'ch-date\'>"+(ch.date||"")+"</span></a>";');
+  lines.push('  }).join("");');
+  lines.push('}');
+  lines.push('async function genChapter(){');
+  lines.push('  var num=parseInt(document.getElementById("chnum").value);');
+  lines.push('  var title=document.getElementById("chtitle").value.trim();');
+  lines.push('  var text=document.getElementById("chtext").value.trim();');
+  lines.push('  if(!num||!title||!text){alert("Please fill in all fields.");return;}');
+  lines.push('  var padded=pad(num);');
+  lines.push('  var dt=todayStr();');
+  lines.push('  var paras=text.split(/\\n+/).filter(function(p){return p.trim();}).map(function(p){return "<p class=\'para\'>"+p.trim()+"</p>";}).join("\\n");');
+  lines.push('  var prev=num>1?"<a href=\'chapter-"+pad(num-1)+".html\' class=\'nav-btn\'>← Previous</a>":"<span class=\'nav-btn disabled\'>← Previous</span>";');
+  lines.push('  var next="<a href=\'chapter-"+pad(num+1)+".html\' class=\'nav-btn\'>Next →</a>";');
+  lines.push('  var chHTML=buildChHTML(num,padded,title,paras,prev,next,dt);');
+  lines.push('  var novelData;');
+  lines.push('  try{var r2=await fetch("../novels/"+NID+".json?v="+Date.now());novelData=await r2.json();}');
+  lines.push('  catch(e){novelData={id:NID,title:NTITLE,author:NAUTHOR,cover:NCOVER,status:NSTATUS,description:NDESC,chapters:[]};}');
+  lines.push('  if(!novelData.chapters.find(function(c){return c.id===num;})){');
+  lines.push('    novelData.chapters.push({id:num,title:"Chapter "+num+": "+title,date:dt});');
+  lines.push('    novelData.chapters.sort(function(a,b){return a.id-b.id;});');
+  lines.push('  }');
+  lines.push('  var libData;');
+  lines.push('  try{var r3=await fetch("../library.json?v="+Date.now());libData=await r3.json();}');
+  lines.push('  catch(e){libData={novels:[]};}');
+  lines.push('  var le=libData.novels.find(function(n){return n.id===NID;});');
+  lines.push('  if(le)le.chapters=novelData.chapters.length;');
+  lines.push('  var novelJSON=JSON.stringify(novelData,null,2);');
+  lines.push('  var libJSON=JSON.stringify(libData,null,2);');
+  lines.push('  var fd=document.getElementById("chfiles");fd.innerHTML="";');
+  lines.push('  function makeBlock(fname,fdesc,content){');
+  lines.push('    var b=document.createElement("div");b.className="file-block";');
+  lines.push('    b.innerHTML="<div class=\'file-name\'>📄 "+fname+"</div><div class=\'file-desc\'>"+fdesc+"</div>";');
+  lines.push('    var btn=document.createElement("button");btn.className="copy-btn";btn.textContent="Copy Content";');
+  lines.push('    btn.onclick=function(){copyTxt(content,btn);};b.appendChild(btn);fd.appendChild(b);');
+  lines.push('  }');
+  lines.push('  makeBlock("chapters/"+NID+"/chapter-"+padded+".html","New chapter page",chHTML);');
+  lines.push('  makeBlock("novels/"+NID+".json","Updated novel data — replace existing",novelJSON);');
+  lines.push('  makeBlock("library.json","Updated library — replace root file",libJSON);');
+  lines.push('  document.getElementById("chdeploy").innerHTML="<strong>How to deploy:</strong><br>1. Create <code>chapters/"+NID+"/chapter-"+padded+".html</code><br>2. Replace <code>novels/"+NID+".json</code><br>3. Replace root <code>library.json</code><br>4. Commit → live in ~30 seconds ✦";');
+  lines.push('  document.getElementById("choutput").style.display="block";');
+  lines.push('  document.getElementById("choutput").scrollIntoView({behavior:"smooth"});');
+  lines.push('}');
+  lines.push('function buildChHTML(num,padded,title,paras,prev,next,dt){');
+  lines.push('  return "<!DOCTYPE html>\\n"');
+  lines.push('  +"<html lang=\'en\'>\\n<head>\\n"');
+  lines.push('  +"<meta charset=\'UTF-8\'/>\\n"');
+  lines.push('  +"<meta name=\'viewport\' content=\'width=device-width, initial-scale=1.0\'/>\\n"');
+  lines.push('  +"<title>Chapter "+num+": "+title+"</title>\\n"');
+  lines.push('  +"<link rel=\'preconnect\' href=\'https://fonts.googleapis.com\'>\\n"');
+  lines.push('  +"<link href=\'https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=Lora:wght@400;500&family=JetBrains+Mono:wght@400;500&display=swap\' rel=\'stylesheet\'>\\n"');
+  lines.push('  +"<style>\\n"');
+  lines.push('  +":root{--bg:#0d0d0d;--bg2:#141414;--border:#2a2a2a;--gold:#c9a84c;--text:#e8e0d0;--muted:#6a6460;}\\n"');
+  lines.push('  +"*{margin:0;padding:0;box-sizing:border-box;}\\n"');
+  lines.push('  +"body{background:var(--bg);color:var(--text);font-family:\'Lora\',Georgia,serif;line-height:1.85;min-height:100vh;}\\n"');
+  lines.push('  +"header{display:flex;align-items:center;justify-content:space-between;padding:0 40px;height:70px;border-bottom:1px solid var(--border);background:var(--bg2);position:sticky;top:0;z-index:100;}\\n"');
+  lines.push('  +".logo{display:flex;align-items:center;gap:12px;text-decoration:none;}\\n"');
+  lines.push('  +".logo-icon{width:36px;height:36px;background:var(--gold);display:flex;align-items:center;justify-content:center;color:var(--bg);}\\n"');
+  lines.push('  +".logo-text{font-family:\'Playfair Display\',serif;font-size:1.3rem;color:var(--gold);}\\n"');
+  lines.push('  +".logo-text span{color:var(--text);font-style:italic;}\\n"');
+  lines.push('  +".back{font-family:\'JetBrains Mono\',monospace;font-size:0.7rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);text-decoration:none;transition:color 0.2s;}\\n"');
+  lines.push('  +".back:hover{color:var(--gold);}\\n"');
+  lines.push('  +".ch-header{text-align:center;padding:48px 20px 36px;border-bottom:1px solid var(--border);background:var(--bg2);}\\n"');
+  lines.push('  +".ch-label{font-family:\'JetBrains Mono\',monospace;font-size:0.68rem;letter-spacing:0.25em;color:var(--muted);text-transform:uppercase;margin-bottom:10px;}\\n"');
+  lines.push('  +".ch-title{font-family:\'Playfair Display\',serif;font-size:clamp(1.4rem,4vw,2.4rem);color:var(--text);line-height:1.2;}\\n"');
+  lines.push('  +".ch-meta{margin-top:10px;font-size:0.8rem;color:var(--muted);font-style:italic;}\\n"');
+  lines.push('  +"main{max-width:700px;margin:0 auto;padding:52px 24px 80px;}\\n"');
+  lines.push('  +".para{margin-bottom:1.5em;font-size:1.1rem;color:var(--text);}\\n"');
+  lines.push('  +".nav-bar{display:flex;justify-content:space-between;align-items:center;margin-top:64px;padding-top:28px;border-top:1px solid var(--border);}\\n"');
+  lines.push('  +".nav-btn{font-family:\'JetBrains Mono\',monospace;font-size:0.7rem;letter-spacing:0.12em;padding:10px 20px;border:1px solid var(--border);color:var(--muted);text-decoration:none;text-transform:uppercase;transition:all 0.2s;}\\n"');
+  lines.push('  +".nav-btn:hover{border-color:var(--gold);color:var(--gold);}\\n"');
+  lines.push('  +".nav-btn.disabled{opacity:0.2;pointer-events:none;}\\n"');
+  lines.push('  +"@media(max-width:600px){header{padding:0 16px;}main{padding:32px 16px 60px;}}\\n"');
+  lines.push('  +"</style>\\n</head>\\n<body>\\n"');
+  lines.push('  +"<header>\\n"');
+  lines.push('  +"<a class=\'logo\' href=\'../../index.html\'><div class=\'logo-icon\'>📚</div><div class=\'logo-text\'>Webnovel <span>Vault</span></div></a>\\n"');
+  lines.push('  +"<a class=\'back\' href=\'../../novels/'+novel.id+'.html\'>← '+novel.title+'</a>\\n"');
+  lines.push('  +"</header>\\n"');
+  lines.push('  +"<div class=\'ch-header\'><div class=\'ch-label\'>Chapter "+num+"</div><h1 class=\'ch-title\'>"+title+"</h1><div class=\'ch-meta\'>Added "+dt+"</div></div>\\n"');
+  lines.push('  +"<main>\\n"+paras+"\\n"');
+  lines.push('  +"<nav class=\'nav-bar\'>"+prev+"<a href=\'../../novels/'+novel.id+'.html\' class=\'nav-btn\'>☰ Contents</a>"+next+"</nav>\\n"');
+  lines.push('  +"</main>\\n</body>\\n</html>";');
+  lines.push('}');
+  lines.push('loadCh();');
+  lines.push('<\/script>');
+  lines.push('</body>');
+  lines.push('</html>');
+  return lines.join('\n');
 }
 
 loadLibrary();
