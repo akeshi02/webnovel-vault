@@ -1,0 +1,13 @@
+{
+  "novels": [
+    {
+      "id": "golden-eyes",
+      "title": "I Have Golden Eyes",
+      "author": "Long Chuan",
+      "cover": "https://via.placeholder.com/300x420/1a1a2e/c89b3c?text=Golden+Eyes",
+      "chapters": 1,
+      "status": "Ongoing",
+      "folder": "novels/golden-eyes"
+    }
+  ]
+}
