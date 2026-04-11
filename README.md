@@ -1,4 +1,3 @@
-```markdown
 # WebNovel Vault - A Novel Management System
 
 📦 Version: 1.0.0
@@ -89,4 +88,4 @@ request. We'll get back to you as soon as possible.
 ## Donate
 
 Your support is appreciated! Consider donating to help us continue improving the WebNovel Vault.
-```
+
